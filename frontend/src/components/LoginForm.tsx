@@ -7,6 +7,7 @@ interface AuthResponse {
   is_admin: boolean;
 }
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 const LoginForm: React.FC = () => {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
@@ -17,7 +18,8 @@ const LoginForm: React.FC = () => {
         setError('');
 
         try {
-            const response = await axios.post<AuthResponse>('/api/auth/signin', { id, password });
+            // Updated API endpoint with the full backend URL
+            const response = await axios.post<AuthResponse>(`${API_BASE_URL}/api/auth/signin`, { id, password });
             const { token, is_admin } = response.data;
 
             // Store token and admin status in localStorage

@@ -6,7 +6,7 @@ import axios from 'axios';
 function getLocalStorageItem(name: string) {
     return localStorage.getItem(name) || '';
 }
-
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
 const RecipePage = () => {
     const [recipeName, setRecipeName] = useState('');
     const [ingredients, setIngredients] = useState([{ name: '', weight: '' }]);
@@ -82,7 +82,8 @@ const RecipePage = () => {
         if (!isAdmin) return;
         try {
             const token = localStorage.getItem('token');
-            await axios.post('/api/admin/create', newUser, {
+            // Updated API endpoint with the full backend URL
+            await axios.post(`${API_BASE_URL}/api/admin/create`, newUser, {
                 headers: { Authorization: `Bearer ${token}` },
             });
             setAdminMsg('User created successfully');

@@ -5,6 +5,8 @@ const AdminPanel = () => {
     const [recipeName, setRecipeName] = useState('');
     const [ingredients, setIngredients] = useState([{ name: '', value: '' }]);
     const [message, setMessage] = useState('');
+    const API_BASE_URL = process.env.REACT_APP_API_BASE_URL
+
 
     const handleAddIngredient = () => {
         setIngredients([...ingredients, { name: '', value: '' }]);
@@ -22,7 +24,8 @@ const AdminPanel = () => {
     const handleAddRecipe = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.post('/api/recipes/add', {
+            // Updated API endpoint
+            const response = await axios.post(`${API_BASE_URL}/api/recipes/add`, {
                 name: recipeName,
                 ingredients: ingredients.filter(ing => ing.name && ing.value),
             }, {
@@ -37,7 +40,8 @@ const AdminPanel = () => {
     const handleDeleteRecipe = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.delete(`/api/recipes/delete/${recipeName}`, {
+            // Updated API endpoint
+            const response = await axios.delete(`${API_BASE_URL}/api/recipes/delete/${recipeName}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             setMessage((response.data as { message: string }).message);
@@ -49,7 +53,8 @@ const AdminPanel = () => {
     const handleGetRecipe = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await axios.get(`/api/recipes/get/${recipeName}`, {
+            // Updated API endpoint
+            const response = await axios.get(`${API_BASE_URL}/api/recipes/get/${recipeName}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = response.data as { name: string; ingredients: any[] };
